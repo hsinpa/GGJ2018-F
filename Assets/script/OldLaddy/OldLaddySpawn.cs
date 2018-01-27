@@ -5,8 +5,6 @@ using Utility;
 
 public class OldLaddySpawn : MonoBehaviour {
 
-  
-
     [SerializeField]
     private float rebornMin, rebornMax;
     [SerializeField]
@@ -22,7 +20,6 @@ public class OldLaddySpawn : MonoBehaviour {
     List<JSONObject> characterJSON;
     Sprite[] oldWomanImages;
 
-
     private bool activate = false;
 	// Use this for initialization
 	public void SetUp (RoundSystemManager p_roundManager) {
@@ -31,9 +28,6 @@ public class OldLaddySpawn : MonoBehaviour {
 
         oldWomanImages = Resources.LoadAll<Sprite>("Sprite/OldWoman");
 	}
-
-
-
 
 	// Update is called once per frame
 	void Update () {

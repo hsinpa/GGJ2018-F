@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Utility;
 
 public class CarBase : MonoBehaviour {
 
@@ -9,7 +10,7 @@ public class CarBase : MonoBehaviour {
     {
         Moving,
         Stop,
-
+        Dead
     }
 
     private Animator _animator;
@@ -20,15 +21,47 @@ public class CarBase : MonoBehaviour {
     public float stopProbability = 50f;
     public Vector2 direct;
     private status _carStatus;
+    private JSONObject carJSON;
+
     /// <summary>
     /// 目前阻止車移動的物品 檢查沒東西才繼續前進
     /// </summary>
     private List<GameObject> _detectList=new List<GameObject>();
-	// Use this for initialization
-	void Start () {
 
+    public void init(string p_id, Vector2 _direct, JSONObject p_carJSON)
+    {
         _animator = GetComponent<Animator>();
+        transform.name = p_id;
+
+        carJSON = p_carJSON;
+        speed = GameManager.instance.speedBaseLine * ( p_carJSON.GetField("speed").n);
+        stopProbability = p_carJSON.GetField("target_character").n;
+        direct = _direct;
+        transform.localScale = new Vector2((_direct.x == 1) ? -1 : 1 , 1 );
+    }
+
+	// Update is called once per frame
+	void Update () {
+
+        switch (_carStatus)
+        {
+            case status.Dead: break;
+            case status.Moving:move(); break;
+            case status.Stop:
+                ////無阻擋務實再前進
+                if (_detectList.Count == 0)
+                    moving();
+                break;
+        }
 	}
+
+    //
+    public bool CanDestoryFrontCar(string p_target_id ) {
+        if (!carJSON.GetField("target_vehecle").HasField(p_target_id)) return false;
+        float possibility = carJSON.GetField("target_vehecle").GetField(p_target_id).n;
+
+        return UtilityColl.FlipCoin(possibility);
+    }
 
     public void detectEnter(GameObject _obj)
     {
@@ -42,16 +75,20 @@ public class CarBase : MonoBehaviour {
         }
         else if (_obj.CompareTag("car"))
         {
-            stop(_obj);
+            if (CanDestoryFrontCar(_obj.name)) {
+                _obj.GetComponent<CarBase>().OnDestory();
+            }
+            else {
+                stop(_obj);
+            }
         }
+        
         IEffectItem _effectItem = _obj.GetComponent<IEffectItem>();
         if (_effectItem != null)
         {
             _effectItem.onDetect(this);
         }
     }
-
-
 
     public void detectExit(GameObject _obj)
     {
@@ -93,33 +130,20 @@ public class CarBase : MonoBehaviour {
         _animator.SetBool("isStop", true);
     }
 
-    public void init(Vector2 _direct, JSONObject p_carJSON)
-    {
-        speed = GameManager.instance.speedBaseLine * ( p_carJSON.GetField("speed").n);
-        stopProbability = p_carJSON.GetField("target_character").n;
-        direct = _direct;
-        transform.localScale = new Vector2((_direct.x == 1) ? -1 : 1 , 1 );
-    }
-
-
-	// Update is called once per frame
-	void Update () {
-
-        switch (_carStatus)
-        {
-            case status.Moving:move(); break;
-            case status.Stop:
-                ////無阻擋務實再前進
-                if (_detectList.Count == 0)
-                    moving();
-                break;
-        }
-
-	}
 
     public void move()
     {
         gameObject.transform.position += new Vector3(direct.x, direct.y, 0) * speed * Time.deltaTime;
+    }
+
+    public void OnDestory() {
+        //Play some animation
+        this.GetComponent<BoxCollider2D>().enabled = false;
+        _carStatus = status.Dead;
+
+        HUDManager.instance.ShowHUD("Destroy!!", transform.position);
+        Debug.Log("Destory it");
+        Destroy(gameObject, 2f);
     }
 
 

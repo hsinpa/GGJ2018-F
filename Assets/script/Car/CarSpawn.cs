@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
 public class CarSpawn : MonoBehaviour {
 
     public GameObject car;
@@ -27,18 +26,15 @@ public class CarSpawn : MonoBehaviour {
         if (countDown >= rebornTime)
         {
             int randomCarIndex = Random.Range(0, carTypesList.Count - 1);
-            JSONObject carComp= GameManager.instance.GetJSONComponent( carTypesList[randomCarIndex].str );
+            string carID = carTypesList[randomCarIndex].str;
+            JSONObject carComp= GameManager.instance.GetJSONComponent( carID );
             rebornTime = carComp.GetField("spawn_time").num;
 
             CarBase carBase= GameObject.Instantiate(car,transform.position, transform.rotation,transform).GetComponent<CarBase>();
-            carBase.init(direct, carComp);
+            carBase.init( carID, direct, carComp);
             countDown = 0;
         }
         countDown += Time.deltaTime;
-
-
-
-
-
 	}
+
 }
