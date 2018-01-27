@@ -16,7 +16,7 @@ public class CarBase : MonoBehaviour {
     public float speed = 5f;
     /// <summary>
     /// 撞人機率0-100
-    /// </summary>
+    /// /// </summary>
     public float stopProbability = 50f;
     public Vector2 direct;
     private status _carStatus;
