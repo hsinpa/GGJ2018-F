@@ -1,0 +1,6 @@
+{
+	"player" : {"speed": 100},
+	"oldgrandma.1" : {"name" : "滅絕師太", "speed" : 1, "score" : 20},
+	"oldgrandma.2" : {"name" : "坑奮老太", "speed" : 0.75, "score" : 40},
+	"oldgrandma.3" : {"name" : "厭世老太", "speed" : 0.5, "score" : 50}
+}

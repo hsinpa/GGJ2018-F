@@ -17,18 +17,32 @@ public class OldLaddySpawn : MonoBehaviour {
     private float LineLong = 10;
     private float _rebornTime = 5;
 
+    RoundSystemManager roundSystemManager;
+    List<JSONObject> characterJSON;
+    private bool activate = false;
 	// Use this for initialization
-	void Start () {
-		
+	public void SetUp (RoundSystemManager p_roundManager) {
+        characterJSON =  p_roundManager.GetCharacterJSON();
+        activate = true;
 	}
 	
+    
+
+
 	// Update is called once per frame
 	void Update () {
-        if (_countDown >= _rebornTime)
+
+        if (_countDown >= _rebornTime && activate)
         {
-            _rebornTime = Random.Range(rebornMin, rebornMax);
+            int randomCharacterIndex = Random.Range(0, characterJSON.Count - 1);
+            JSONObject characterComp= GameManager.instance.GetJSONComponent( characterJSON[randomCharacterIndex].GetField("id").str );
+
+            
+            _rebornTime = characterJSON[randomCharacterIndex].GetField("frequency").num;
             OldLaddy oldLaddy = GameObject.Instantiate(_oldLaddy, transform.position, transform.rotation, transform).GetComponent<OldLaddy>();
-            oldLaddy.init(new Vector3(   TargetLine.transform.position.x+ Random.Range(-1*LineLong, LineLong), TargetLine.transform.position.y,0));
+            oldLaddy.init(new Vector3(   TargetLine.transform.position.x+ Random.Range(-1*LineLong, LineLong), TargetLine.transform.position.y,0),
+                characterComp
+            );
 
             _countDown = 0;
         }

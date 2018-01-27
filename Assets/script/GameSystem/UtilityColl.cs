@@ -14,5 +14,6 @@ namespace Utility {
 			return ( rate >= testValue ) ? true : false;
 		}
 
+
 	}
 }

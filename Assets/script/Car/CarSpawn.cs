@@ -11,9 +11,12 @@ public class CarSpawn : MonoBehaviour {
     private Vector2 direct;
     private bool isActivate = false;
 
+    private List<JSONObject> carTypesList = new List<JSONObject>();
+
 	// Use this for initialization
-	public void SetUp (Vector2 p_direction ) {
-        isActivate = true;
+	public void SetUp (Vector2 p_direction, List<JSONObject> p_car_types ) {
+        carTypesList = p_car_types;
+        isActivate = true;  
         direct = p_direction;
 	}
 	
@@ -23,9 +26,12 @@ public class CarSpawn : MonoBehaviour {
 
         if (countDown >= rebornTime)
         {
+            int randomCarIndex = Random.Range(0, carTypesList.Count - 1);
+            JSONObject carComp= GameManager.instance.GetJSONComponent( carTypesList[randomCarIndex].str );
+            rebornTime = carComp.GetField("spawn_time").num;
 
             CarBase carBase= GameObject.Instantiate(car,transform.position, transform.rotation,transform).GetComponent<CarBase>();
-            carBase.init(direct);
+            carBase.init(direct, carComp);
             countDown = 0;
         }
         countDown += Time.deltaTime;
