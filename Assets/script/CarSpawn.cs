@@ -9,13 +9,17 @@ public class CarSpawn : MonoBehaviour {
     private float countDown = 0;
     [SerializeField]
     private Vector2 direct;
+    private bool isActivate = false;
+
 	// Use this for initialization
-	void Start () {
-		
+	public void SetUp (Vector2 p_direction ) {
+        isActivate = true;
+        direct = p_direction;
 	}
 	
-	// Update is called once per frame
 	void Update () {
+        //Work only if is activate
+        if (!isActivate)  return;
 
         if (countDown >= rebornTime)
         {

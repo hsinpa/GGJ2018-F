@@ -96,7 +96,7 @@ public class CarBase : MonoBehaviour {
     public void init(Vector2 _direct)
     {
         direct = _direct;
-
+        transform.localScale = new Vector2((_direct.x == 1) ? -1 : 1 , 1 );
     }
 
 
