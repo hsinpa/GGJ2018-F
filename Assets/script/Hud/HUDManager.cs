@@ -16,7 +16,7 @@ public class HUDManager : MonoBehaviour {
     }
 
 
-    public void ShowHUD(string message,Vector3 position)
+    public void ShowHUD(string message, Vector3 position)
     {
 
         GameObject _hud = GameObject.Instantiate(HUD, transform);

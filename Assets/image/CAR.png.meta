@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: 4ef1225b4bd2a7542a06e44b7aa63673
-timeCreated: 1516989568
+timeCreated: 1517060274
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -44,7 +44,7 @@ TextureImporter:
   compressionQuality: 50
   spriteMode: 2
   spriteExtrude: 1
-  spriteMeshType: 1
+  spriteMeshType: 0
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
@@ -88,6 +88,26 @@ TextureImporter:
     allowsAlphaSplitting: 0
     overridden: 0
     androidETC2FallbackOverride: 0
+  - buildTarget: iPhone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+  - buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
@@ -95,13 +115,13 @@ TextureImporter:
       name: CAR_0
       rect:
         serializedVersion: 2
-        x: 93
-        y: 266
-        width: 589
+        x: 46
+        y: 248
+        width: 432
         height: 188
       alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 247, y: 18, z: 180, w: 38}
       outline: []
       physicsShape: []
       tessellationDetail: 0
@@ -109,12 +129,12 @@ TextureImporter:
       name: CAR_1
       rect:
         serializedVersion: 2
-        x: 170
-        y: 64
-        width: 137
-        height: 140
+        x: 95
+        y: 112
+        width: 115
+        height: 115
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
