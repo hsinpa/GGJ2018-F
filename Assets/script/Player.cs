@@ -3,11 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Player : MonoBehaviour, IroadObject
+public class Player : MonoBehaviour, IEffectItem
 {
 
 
-
+    public float baseSpeed;
     public float speed = 0.3f;
     /// <summary>
     /// =碰到的所有道具
@@ -19,10 +19,7 @@ public class Player : MonoBehaviour, IroadObject
     /// </summary>
     [SerializeField]
     private GameObject _carryItem;
-    // Use this for initialization
-    void Start()
-    {
-    }
+    private List<BuffData> _buffDataList=new List<BuffData>();
 
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -32,8 +29,16 @@ public class Player : MonoBehaviour, IroadObject
         {
             _touchItem.Add(collision.gameObject);
         }
+        IEffectItem _efffectItem = GetComponent<IEffectItem>();
+        if(null!=_efffectItem)
+        {
+            _efffectItem.meetPlayer(this);
 
-    }
+
+        }
+
+
+                }
 
     private void OnCollisionExit2D(Collision2D collision)
     {
@@ -87,13 +92,49 @@ public class Player : MonoBehaviour, IroadObject
     }
 
 
-    public void onHit(CarBase _car)
+
+    public void meetCar(CarBase _car)
     {
-        die();
+          die();
+    }
+
+    public void meetPlayer(Player _player)
+    {
+        
     }
 
     public void onDetect(CarBase _car)
     {
+        
+    }
+
+
+    public void addBuff(BuffData _buffData )
+    {
+        _buffDataList.Add(_buffData);
+        float _speedBase=baseSpeed,_buffScale=1;
+
+        for (int i = 0; i < _buffDataList.Count; i++)
+        {
+            if(_buffDataList[i].speedBase!=0)
+            _speedBase = _buffDataList[i].speedBase;
+            _buffScale += _buffScale;
+        }
+        speed = (_speedBase * _buffScale);
+    }
+
+    public void removeBuff(int BuffID)
+    {
+        for (int i = 0; i < _buffDataList.Count; i++)
+        {
+            if (_buffDataList[i].buffID == BuffID)
+            {
+                _buffDataList.RemoveAt(i);
+                break;
+            }
+        }
+
+
 
     }
 }

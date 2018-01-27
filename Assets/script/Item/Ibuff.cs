@@ -2,15 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Ibuff : MonoBehaviour {
+public interface Ibuff  {
 
-	// Use this for initialization
-	void Start () {
-		
-	}
+    void getBuff();
+
+    void loseBuff();
 	
-	// Update is called once per frame
-	void Update () {
-	
-	}
 }

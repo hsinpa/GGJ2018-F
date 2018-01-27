@@ -55,11 +55,6 @@ public class OldLaddy : MonoBehaviour, IEffectItem,ICarryItem
             case status.Moving:
                 ///向前衝阿
                 gameObject.transform.position += Vector3.up * speed * Time.deltaTime;
-                if (transform.position.y > _endLineY)
-                {
-                    GameManager.instance.addPoint(point);
-                    HUDManager.instance.ShowHUD(point.ToString(), transform.position);
-                }
                 break;
         }
     }
@@ -91,12 +86,12 @@ public class OldLaddy : MonoBehaviour, IEffectItem,ICarryItem
     public void carry(Player _player)
     {
         _oldLaddyStatus = status.BeHelp;
-        _player.speedBuff(0.5f);
+        _player.addBuff(new BuffData(1, speed, 1f));
     }
 
     public void abondon(Player _player)
     {
         _oldLaddyStatus = status.Moving;
-        _player.speedBuff(2f);
+        _player.removeBuff(1);
     }
 }
