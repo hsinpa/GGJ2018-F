@@ -13,7 +13,7 @@ public class GameManager : MonoBehaviour {
     public int speedBaseLine = 5;
     public static GameManager instance;
 
-    public JSONObject characterJSON, vehecleJSON, roundJSON;
+    public JSONObject characterJSON, vehicleJSON, roundJSON;
     // public string round_id;
 
 	//Where everything start
@@ -38,7 +38,7 @@ public class GameManager : MonoBehaviour {
 	void Initialize() {
         //Set json file
         characterJSON =  new JSONObject( Resources.Load<TextAsset>("Database/Character").text );
-        vehecleJSON = new JSONObject( Resources.Load<TextAsset>("Database/VehecleType").text );
+        vehicleJSON = new JSONObject( Resources.Load<TextAsset>("Database/VehicleType").text );
         roundJSON =  new JSONObject( Resources.Load<TextAsset>("Database/Rounds").text );
 
         _roundSystemManager.SetUp(roundJSON);
@@ -50,7 +50,7 @@ public class GameManager : MonoBehaviour {
     }
 
     public JSONObject GetJSONComponent(string p_key) {
-        if (vehecleJSON.HasField(p_key)) return vehecleJSON.GetField(p_key);
+        if (vehicleJSON.HasField(p_key)) return vehicleJSON.GetField(p_key);
         if (characterJSON.HasField(p_key)) return characterJSON.GetField(p_key);
 
         return null;
