@@ -34,7 +34,6 @@ public class CarBase : MonoBehaviour {
     {
         if (_obj.CompareTag("person"))
         {
-            Debug.Log("偵測到人");
             ///機率性狀人
             if (Random.Range(0, 100f) >= stopProbability)
             {
@@ -43,15 +42,16 @@ public class CarBase : MonoBehaviour {
         }
         else if (_obj.CompareTag("car"))
         {
-            Debug.Log("偵測到車");
             stop(_obj);
         }
-        IroadObject _roadObject = _obj.GetComponent<IroadObject>();
-        if (_roadObject != null)
+        IEffectItem _effectItem = _obj.GetComponent<IEffectItem>();
+        if (_effectItem != null)
         {
-            _roadObject.onDetect(this);
+            _effectItem.onDetect(this);
         }
     }
+
+
 
     public void detectExit(GameObject _obj)
     {
@@ -63,10 +63,10 @@ public class CarBase : MonoBehaviour {
 
     public void OnCollisionEnter2D(Collision2D collision)
     {
-        IroadObject _roadObject = collision.gameObject.GetComponent<IroadObject>();
-        if (_roadObject != null)
+        IEffectItem _effectItem= collision.gameObject.GetComponent<IEffectItem>();
+        if (_effectItem != null)
         {
-            _roadObject.onHit(this);
+            _effectItem.meetCar(this);
         }
 
 

@@ -15,6 +15,13 @@ public class MapManager : MonoBehaviour {
 	int detectorHeight = 2;
 	int slotNumer;
 
+
+    public float getEndY()
+    {
+        return topBlockObject.transform.position.y;
+
+    }
+
 	public void Setup(GameManager p_gameObject, int p_slot_num) {
 		slotNumer = p_slot_num;
 
