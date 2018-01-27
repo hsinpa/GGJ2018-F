@@ -13,7 +13,7 @@ public class SpeedItem :MonoBehaviour,  IEffectItem
 
     public void meetPlayer(Player _player)
     {
-        _player.addBuff(new BuffData(2, 0, 1.5f));
+        _player.addBuff(new BuffData(2, 0, 0.5f));
     }
 
     public void onDetect(CarBase _car)

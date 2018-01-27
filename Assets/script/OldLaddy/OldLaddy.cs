@@ -10,7 +10,8 @@ public class OldLaddy : MonoBehaviour, IEffectItem,ICarryItem
     {
         Moving,
         BeHelp,
-        Idle
+        Idle,
+        MoveOut
     }
 
     public float waitTime=3f;
@@ -58,10 +59,26 @@ public class OldLaddy : MonoBehaviour, IEffectItem,ICarryItem
             case status.Moving:
                 ///向前衝阿
                 gameObject.transform.position += Vector3.up * speed * Time.deltaTime;
+                if (transform.position.y > _endLineY)
+                {
+                    _oldLaddyStatus = status.MoveOut;
+                }
                 break;
+
+
+
         }
     }
+    /// <summary>
+    /// 結束動畫 離場
+    /// </summary>
+    public void MoveOut()
+    {
+        GameManager.instance.addPoint(point);
+        HUDManager.instance.ShowHUD("+" + point.ToString(), transform.position);
+        gameObject.transform.DOMoveY(transform.position.y + 30,30 / speed).OnComplete(()=>Destroy(gameObject));
 
+    }
 
     public void die()
     {
@@ -76,7 +93,6 @@ public class OldLaddy : MonoBehaviour, IEffectItem,ICarryItem
 
     public void meetCar(CarBase _car)
     {
-             Debug.Log("HIT");
         die();
     }
 
@@ -88,7 +104,7 @@ public class OldLaddy : MonoBehaviour, IEffectItem,ICarryItem
     public void carry(Player _player)
     {
         _oldLaddyStatus = status.BeHelp;
-        _player.addBuff(new BuffData(1, speed, 1f));
+        _player.addBuff(new BuffData(1, speed, 0f));
     }
 
     public void abondon(Player _player)

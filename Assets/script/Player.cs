@@ -72,7 +72,7 @@ public class Player : MonoBehaviour, IEffectItem
         {
             _animator.SetLayerWeight(1, 1);
             _carryItem = _touchItem[0];
-            _carryItem.transform.parent =_carryPoint;
+            _carryItem.transform.parent = _carryPoint;
             _carryItem.transform.localPosition = Vector3.zero;
             _touchItem[0].GetComponent<ICarryItem>().carry(this);
 
@@ -84,7 +84,7 @@ public class Player : MonoBehaviour, IEffectItem
         ///反轉LEFT
         if (direct.x > 0)
         {
-            transform.localScale= new Vector3(-1, 1, 1);
+            transform.localScale = new Vector3(-1, 1, 1);
         }
         else
         {
@@ -102,7 +102,7 @@ public class Player : MonoBehaviour, IEffectItem
         GameManager.instance.gameOver();
     }
 
-   
+
 
 
     public void meetCar(CarBase _car)
@@ -124,8 +124,14 @@ public class Player : MonoBehaviour, IEffectItem
     public void addBuff(BuffData _buffData)
     {
         _buffDataList.Add(_buffData);
-        float _speedBase = baseSpeed, _buffScale = 1;
 
+
+    }
+
+
+    public void countBuff()
+    {
+        float _speedBase = baseSpeed, _buffScale = 1;
         for (int i = 0; i < _buffDataList.Count; i++)
         {
             if (_buffDataList[i].speedBase != 0)
@@ -133,6 +139,7 @@ public class Player : MonoBehaviour, IEffectItem
             _buffScale += _buffScale;
         }
         speed = (_speedBase * _buffScale);
+
     }
 
     public void removeBuff(int BuffID)
