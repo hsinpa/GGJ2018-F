@@ -13,7 +13,7 @@ public class RoundSystemManager : MonoBehaviour {
 	//Call only during game activate
 	public void SetUp(JSONObject p_roundJson) {
 		listRoundJSON = p_roundJson.list;
-		SetRoundInfo(0);
+		SetRoundInfo(2);
 	}
 
 	public void SetRoundInfo(int p_round_index) {

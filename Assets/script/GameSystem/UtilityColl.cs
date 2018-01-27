@@ -14,6 +14,19 @@ namespace Utility {
 			return ( rate >= testValue ) ? true : false;
 		}
 
-
+	    /// <summary>
+        ///  Load single sprite from multiple mode
+        /// </summary>
+        /// <param name="spriteArray"></param>
+        /// <param name="spriteName"></param>
+        /// <returns></returns>
+		public static Sprite LoadSpriteFromMulti(Sprite[] spriteArray, string spriteName) {
+			foreach (Sprite s in spriteArray) {
+				
+				if (s.name == spriteName) return s;
+			}
+			return null;
+		}
+		
 	}
 }
