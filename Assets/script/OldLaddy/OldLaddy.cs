@@ -6,14 +6,11 @@ using System;
 
 public class OldLaddy : MonoBehaviour, IEffectItem,ICarryItem
 {
-
-
     public enum status
     {
         Moving,
         BeHelp,
         Idle
-
     }
 
     public float waitTime=3f;
@@ -22,8 +19,12 @@ public class OldLaddy : MonoBehaviour, IEffectItem,ICarryItem
     private status _oldLaddyStatus;
     private float _endLineY;
     private float time=0;
-    public void init(Vector3 position)
+    private string type = "";
+
+    public void init(Vector3 position, JSONObject p_characterJSONComp)
     {
+        speed = GameManager.instance.speedBaseLine * ( p_characterJSONComp.GetField("speed").n);
+
         ///算離目標多遠
         float far = Vector3.Distance(transform.position,position);
         //等速到目標地
@@ -69,7 +70,6 @@ public class OldLaddy : MonoBehaviour, IEffectItem,ICarryItem
     {
         HUDManager.instance.ShowHUD("Die", transform.position);
         Destroy(gameObject);
-
     }
 
     public void onDetect(CarBase _car)

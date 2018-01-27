@@ -5,10 +5,14 @@ using Utility;
 
 public class MapManager : MonoBehaviour {
 	SpriteRenderer streetObject; 
+
 	GameObject detectorPrefab, carSpawnPrefab;
 
 	GameObject topBlockObject, bottomBlockObject;
 
+	GameManager _gameManager;
+
+	public List<CarSpawn> carSpawnPointList =  new List<CarSpawn>();
 
 	//Varaible
 	int slotheight = 4;
@@ -22,7 +26,10 @@ public class MapManager : MonoBehaviour {
 
     }
 
-	public void Setup(GameManager p_gameObject, int p_slot_num) {
+	public void Setup(GameManager p_gameManager, int p_slot_num) {
+		Clear();
+
+		_gameManager = p_gameManager;
 		slotNumer = p_slot_num;
 
 		detectorPrefab = Resources.Load<GameObject>("Prefab/MapObject/DetectorObject");
@@ -35,15 +42,19 @@ public class MapManager : MonoBehaviour {
 		float[] btVaraible = GetBottomTopLine(streetObject);
 
 		//Bottom Block
-		bottomBlockObject = GetDetctorObject("BottomBlock", new Vector2(transform.position.x,  btVaraible[0] +  (detectorHeight/2f)), 
+		bottomBlockObject = GetDetctorObject(bottomBlockObject, "BottomBlock", new Vector2(transform.position.x,  btVaraible[0] +  (detectorHeight/2f)), 
 						new Vector2(streetObject.size.x, detectorHeight ) );
 
 		//Top Block
-		topBlockObject = GetDetctorObject("TopBlock", new Vector2(transform.position.x,  btVaraible[1]+(detectorHeight/2f)),
+		topBlockObject = GetDetctorObject(topBlockObject, "TopBlock", new Vector2(transform.position.x,  btVaraible[1]+(detectorHeight/2f)),
 						 new Vector2(streetObject.size.x, detectorHeight) );
 
 		//Set Grandma config
 		SetGrandMaStartingLine(new Vector2(bottomBlockObject.transform.position.x,  bottomBlockObject.transform.position.y - slotheight));
+		transform.Find("OldLaddySpawnList/OldLaddySpawn").GetComponent<OldLaddySpawn>().SetUp(p_gameManager._roundSystemManager);
+
+		//Set Player config
+		SetPlayerStartingLine(new Vector2(0,  bottomBlockObject.transform.position.y - slotheight));
 
 		//Set carspawn config
 		SetCarSpawnGenerator(btVaraible[0], p_slot_num);
@@ -64,8 +75,8 @@ public class MapManager : MonoBehaviour {
 	}
 
 
-	public GameObject GetDetctorObject(string p_name, Vector2 p_position, Vector2 p_size) {
-		GameObject dectorObject = GameObject.Instantiate(detectorPrefab);
+	public GameObject GetDetctorObject(GameObject dectorObject, string p_name, Vector2 p_position, Vector2 p_size) {
+		if (dectorObject == null) dectorObject = GameObject.Instantiate(detectorPrefab);
 		BoxCollider2D boxColider =  dectorObject.GetComponent<BoxCollider2D>();
 
 		dectorObject.name = p_name;
@@ -78,7 +89,7 @@ public class MapManager : MonoBehaviour {
 	}
 
 	//================================================================ Car Spawn Setting ================================================================
-	private void CreateCarSpawn(Vector2 p_position, Vector2 p_direction) {
+	private CarSpawn CreateCarSpawn(Vector2 p_position, Vector2 p_direction) {
 		GameObject carSpawnObject = GameObject.Instantiate(carSpawnPrefab);
 		CarSpawn carSpawnScript = carSpawnObject.GetComponent<CarSpawn>();
 
@@ -87,7 +98,8 @@ public class MapManager : MonoBehaviour {
 		carSpawnObject.transform.SetParent(carSpawnHolder);
 		carSpawnObject.transform.position = p_position;
 
-		carSpawnScript.SetUp(p_direction);
+		carSpawnScript.SetUp(p_direction, _gameManager._roundSystemManager.GetVehecleJSON());
+		return carSpawnScript;
 	}
 	
 	private void SetCarSpawnGenerator(float p_streetBottomPosition, int p_carSlot) {
@@ -104,9 +116,10 @@ public class MapManager : MonoBehaviour {
 											 	carSpawnYPos);
 			Vector2 carDirection = (isFaceLeft) ?  Vector2.right :Vector2.left;
 
-			CreateCarSpawn( carSpawnPos, carDirection);
+			CarSpawn gCarSpawn = CreateCarSpawn( carSpawnPos, carDirection);
 			// Vector2 carSpawnPosition,
 			// spawnDir = ;
+			carSpawnPointList.Add(gCarSpawn);
 		}
 	}
 
@@ -116,5 +129,20 @@ public class MapManager : MonoBehaviour {
 		grandmaStartlineObject.position = p_position;
 	}
 
+
+	// Player Setting	
+	public void SetPlayerStartingLine(Vector2 p_position) {
+		Player player = transform.Find("Player").GetComponent<Player>();
+		player.transform.position = p_position;
+	}
+
+
+	public void Clear() {
+		foreach (CarSpawn carSpawn in carSpawnPointList) {
+			GameObject.Destroy(carSpawn);
+		}
+		carSpawnPointList.Clear();
+
+	}
 
 }

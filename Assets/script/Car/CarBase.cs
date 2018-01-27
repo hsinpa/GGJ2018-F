@@ -93,8 +93,10 @@ public class CarBase : MonoBehaviour {
         _animator.SetBool("isStop", true);
     }
 
-    public void init(Vector2 _direct)
+    public void init(Vector2 _direct, JSONObject p_carJSON)
     {
+        speed = GameManager.instance.speedBaseLine * ( p_carJSON.GetField("speed").n);
+        stopProbability = p_carJSON.GetField("target_character").n;
         direct = _direct;
         transform.localScale = new Vector2((_direct.x == 1) ? -1 : 1 , 1 );
     }
