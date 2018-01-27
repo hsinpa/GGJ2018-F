@@ -2,8 +2,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
-public class OldLaddy : MonoBehaviour {
+public class OldLaddy : MonoBehaviour,IroadObject {
 
     public float speed =0.4f;
 
@@ -13,14 +14,10 @@ public class OldLaddy : MonoBehaviour {
     {
         transform.DOMove(position, 5);
     }
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (collision.gameObject.CompareTag("car"))
-        {
-            Debug.Log("HIT");
-            die();
-        }
-    }
+
+
+
+  
 
 
     public void die()
@@ -31,4 +28,14 @@ public class OldLaddy : MonoBehaviour {
 
     }
 
+    public void onHit(CarBase _car)
+    {
+        Debug.Log("HIT");
+        die();
+    }
+
+    public void onDetect(CarBase _car)
+    {
+        
+    }
 }
