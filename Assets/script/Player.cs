@@ -18,8 +18,16 @@ public class Player : MonoBehaviour, IEffectItem
     /// 正帶的東西
     /// </summary>
     [SerializeField]
+    private Transform _carryPoint;
     private GameObject _carryItem;
-    private List<BuffData> _buffDataList=new List<BuffData>();
+    private List<BuffData> _buffDataList = new List<BuffData>();
+    private Animator _animator;
+
+    private void Awake()
+    {
+        _animator = GetComponent<Animator>();
+        _animator.SetLayerWeight(1, 0);
+    }
 
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -30,7 +38,7 @@ public class Player : MonoBehaviour, IEffectItem
             _touchItem.Add(collision.gameObject);
         }
         IEffectItem _efffectItem = GetComponent<IEffectItem>();
-        if(null!=_efffectItem)
+        if (null != _efffectItem)
         {
             _efffectItem.meetPlayer(this);
 
@@ -38,7 +46,7 @@ public class Player : MonoBehaviour, IEffectItem
         }
 
 
-                }
+    }
 
     private void OnCollisionExit2D(Collision2D collision)
     {
@@ -55,15 +63,17 @@ public class Player : MonoBehaviour, IEffectItem
 
         if (null != _carryItem)
         {
-
+            _animator.SetLayerWeight(1, 0);
             _carryItem.transform.SetParent(null);
             _carryItem.GetComponent<ICarryItem>().abondon(this);
             _carryItem = null;
         }
         else if (_touchItem.Count > 0)
         {
+            _animator.SetLayerWeight(1, 1);
             _carryItem = _touchItem[0];
-            _carryItem.transform.parent = transform;
+            _carryItem.transform.parent =_carryPoint;
+            _carryItem.transform.localPosition = Vector3.zero;
             _touchItem[0].GetComponent<ICarryItem>().carry(this);
 
         }
@@ -71,6 +81,17 @@ public class Player : MonoBehaviour, IEffectItem
 
     public void move(Vector2 direct)
     {
+        ///反轉LEFT
+        if (direct.x > 0)
+        {
+            transform.localScale= new Vector3(-1, 1, 1);
+        }
+        else
+        {
+            transform.localScale = new Vector3(1, 1, 1);
+        }
+        _animator.SetBool("x", direct.x != 0);
+        _animator.SetFloat("y", direct.y);
         gameObject.transform.position += new Vector3(direct.x, direct.y, 0) * speed * Time.deltaTime;
     }
 
@@ -81,43 +102,34 @@ public class Player : MonoBehaviour, IEffectItem
         GameManager.instance.gameOver();
     }
 
-    /// <summary>
-    /// 速度加成
-    /// </summary>
-    /// <param name="BuffTimes"></param> 加成倍數
-    public void speedBuff(float BuffTimes)
-    {
-        speed *= BuffTimes;
-
-    }
-
+   
 
 
     public void meetCar(CarBase _car)
     {
-          die();
+        die();
     }
 
     public void meetPlayer(Player _player)
     {
-        
+
     }
 
     public void onDetect(CarBase _car)
     {
-        
+
     }
 
 
-    public void addBuff(BuffData _buffData )
+    public void addBuff(BuffData _buffData)
     {
         _buffDataList.Add(_buffData);
-        float _speedBase=baseSpeed,_buffScale=1;
+        float _speedBase = baseSpeed, _buffScale = 1;
 
         for (int i = 0; i < _buffDataList.Count; i++)
         {
-            if(_buffDataList[i].speedBase!=0)
-            _speedBase = _buffDataList[i].speedBase;
+            if (_buffDataList[i].speedBase != 0)
+                _speedBase = _buffDataList[i].speedBase;
             _buffScale += _buffScale;
         }
         speed = (_speedBase * _buffScale);
