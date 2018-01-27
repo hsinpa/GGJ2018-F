@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Utility;
 
 public class OldLaddySpawn : MonoBehaviour {
 
@@ -19,14 +20,19 @@ public class OldLaddySpawn : MonoBehaviour {
 
     RoundSystemManager roundSystemManager;
     List<JSONObject> characterJSON;
+    Sprite[] oldWomanImages;
+
+
     private bool activate = false;
 	// Use this for initialization
 	public void SetUp (RoundSystemManager p_roundManager) {
         characterJSON =  p_roundManager.GetCharacterJSON();
         activate = true;
+
+        oldWomanImages = Resources.LoadAll<Sprite>("Sprite/OldWoman");
 	}
-	
-    
+
+
 
 
 	// Update is called once per frame
@@ -35,13 +41,14 @@ public class OldLaddySpawn : MonoBehaviour {
         if (_countDown >= _rebornTime && activate)
         {
             int randomCharacterIndex = Random.Range(0, characterJSON.Count - 1);
-            JSONObject characterComp= GameManager.instance.GetJSONComponent( characterJSON[randomCharacterIndex].GetField("id").str );
+            string oldWomanID = characterJSON[randomCharacterIndex].GetField("id").str;
+            JSONObject characterComp= GameManager.instance.GetJSONComponent( oldWomanID );
 
-            
+            Sprite oldWomanSprite =  UtilityColl.LoadSpriteFromMulti(oldWomanImages, oldWomanID);
             _rebornTime = characterJSON[randomCharacterIndex].GetField("frequency").num;
             OldLaddy oldLaddy = GameObject.Instantiate(_oldLaddy, transform.position, transform.rotation, transform).GetComponent<OldLaddy>();
             oldLaddy.init(new Vector3(   TargetLine.transform.position.x+ Random.Range(-1*LineLong, LineLong), TargetLine.transform.position.y,0),
-                characterComp
+                characterComp, oldWomanSprite
             );
 
             _countDown = 0;

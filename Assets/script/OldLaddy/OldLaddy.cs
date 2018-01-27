@@ -21,9 +21,11 @@ public class OldLaddy : MonoBehaviour, IEffectItem,ICarryItem
     private float time=0;
     private string type = "";
 
-    public void init(Vector3 position, JSONObject p_characterJSONComp)
+    public void init(Vector3 position, JSONObject p_characterJSONComp, Sprite p_sprite)
     {
         speed = GameManager.instance.speedBaseLine * ( p_characterJSONComp.GetField("speed").n);
+
+        GetComponent<SpriteRenderer>().sprite = p_sprite;
 
         ///算離目標多遠
         float far = Vector3.Distance(transform.position,position);
