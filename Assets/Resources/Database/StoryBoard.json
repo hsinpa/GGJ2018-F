@@ -26,7 +26,7 @@
 		{	"text" : "奶奶很感激，但是因為姿勢不當，造成奶奶肌肉拉傷。\n「唉呦我的腰……」",
 			"background" : "" },
 		{	"text" : "點一下重來",
-			"background" : ""
+			"background" : "bg.ed.1"
 			 }
 	],
 	"storyboard.3" : [
@@ -34,7 +34,7 @@
 			"text" : "奶奶被你嚇到，忘記怎麼回家了。\n「這裡是誰？我是哪裡？」",
 			"background" : "", "avatar": "" },
 			{	"text" : "點一下重來",
-				"background" : "",
+				"background" : "bg.ed.2",
 				"avatar": "" }
 	],
 	"storyboard.4" : [
@@ -42,7 +42,7 @@
 			"text" : "造成交通大亂，被警察逮捕。\n「為什麼不走斑馬線？」",
 			"background" : "","avatar": "" },
 			{	"text" : "點一下重來",
-				"background" : "" }
+				"background" : "bg.ed.3" }
 	],
 	"storyboard.5" : [
 		{	
