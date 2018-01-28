@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
 public class GameManager : MonoBehaviour {
 	[HideInInspector]
 	public MapManager _mapManager;
@@ -9,14 +8,15 @@ public class GameManager : MonoBehaviour {
 
 
     [SerializeField]
-    public int Score;
+    public int Score=0;
     public int speedBaseLine = 5;
     public static GameManager instance;
+    public delegate void systemDelegate();
+    public event systemDelegate updateUI;
 
 
-    public List<string> savedOldLaddyList = new List<string>();
-    public List<string> dieOldLaddyList = new List<string>();
-
+    public Dictionary<string, int> savedOldLaddyDic=new Dictionary<string, int>();
+    public Dictionary<string, int> dieOldLaddyDic = new Dictionary<string, int>();
     public JSONObject characterJSON, vehicleJSON, roundJSON;
     // public string round_id;
 
@@ -26,17 +26,33 @@ public class GameManager : MonoBehaviour {
 
         _roundSystemManager = GetComponent<RoundSystemManager>();
 		_mapManager = GameObject.Find("BackGround").GetComponent<MapManager>();
-		Initialize();
+	
 	}
+
+    private void Start()
+    {
+        	Initialize();
+    }
 
     void Initialize() {
         //Set json file
         characterJSON =  new JSONObject( Resources.Load<TextAsset>("Database/Character").text );
         vehicleJSON = new JSONObject( Resources.Load<TextAsset>("Database/VehicleType").text );
         roundJSON =  new JSONObject( Resources.Load<TextAsset>("Database/Rounds").text );
-
         _roundSystemManager.SetUp(roundJSON, 2);
 
+
+
+
+        ///讀腳色表 鍵Dictionary
+        ////跳過第一個
+        for (int i = 1; i < characterJSON.Count; i++)
+        {
+            savedOldLaddyDic.Add(characterJSON.keys[i],0);
+            dieOldLaddyDic.Add(characterJSON.keys[i], 0);
+        }
+        updateUI();
+        
         //_roundSystemManager.currentRound.GetField("streetSlot").num
         _mapManager.Setup(this, 4 );
 	}
@@ -48,17 +64,19 @@ public class GameManager : MonoBehaviour {
     public void addPoint(int Point, string p_oldLaddy_id)
     {
         Score += Point;
-        savedOldLaddyList.Add(p_oldLaddy_id);
+        savedOldLaddyDic[p_oldLaddy_id]++;
+        updateUI();
     }
 
     public void removeOldLaddy(string p_oldLaddy_id) {
-        dieOldLaddyList.Add(p_oldLaddy_id);
+        dieOldLaddyDic[p_oldLaddy_id]++;
+        updateUI();
+
     }
 
     public void gameOver()
     {
         Debug.Log("gameover");
-
         string loseText = _roundSystemManager.currentRound.GetField("lose_text").str;
         //Display it
     }  

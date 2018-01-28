@@ -10,9 +10,9 @@ public class HUD : MonoBehaviour
     public Text _text;
 
 
-    public void init(string message)
+    public void init(string message,Color _color =default(Color))
     {
-
+        ///_text.color = _color;
         RectTransform _rectTramsform = GetComponent<RectTransform>();
 
         _rectTramsform.DOLocalMoveY(_rectTramsform.position.y+ upDis, 2).OnComplete(()=>Destroy(gameObject));
