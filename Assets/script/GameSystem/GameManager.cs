@@ -24,8 +24,9 @@ public class GameManager : MonoBehaviour {
 
 	//Where everything start
 	void Awake () {
-        instance = this;
 
+
+        instance = this;
         _roundSystemManager = GetComponent<RoundSystemManager>();
 		_mapManager = GameObject.Find("BackGround").GetComponent<MapManager>();
         _storyboardManager = GameObject.Find("Canvas/StoryBoard").GetComponent<StoryBoardManager>();
