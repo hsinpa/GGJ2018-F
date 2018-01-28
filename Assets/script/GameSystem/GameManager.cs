@@ -19,7 +19,7 @@ public class GameManager : MonoBehaviour {
 
     public Dictionary<string, int> savedOldLaddyDic=new Dictionary<string, int>();
     public Dictionary<string, int> dieOldLaddyDic = new Dictionary<string, int>();
-    public JSONObject characterJSON, vehicleJSON, roundJSON;
+    public JSONObject characterJSON, vehicleJSON, roundJSON, storyboardJSON;
     // public string round_id;
 
 	//Where everything start
