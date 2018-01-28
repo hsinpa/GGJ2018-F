@@ -86,6 +86,7 @@ public class OldLaddy : MonoBehaviour, IEffectItem,ICarryItem
 
     public void die()
     {
+        SoundManager.instance.plauMusic("shriek");
         GameManager.instance.removeOldLaddy(_id);
         HUDManager.instance.ShowHUD("Die", transform.position);
         Destroy(gameObject);

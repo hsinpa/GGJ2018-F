@@ -26,11 +26,12 @@ public class ScoreBoardUI : MonoBehaviour {
         for (int i = 0; i < _saveOldLaddy.Count(); i++)
         {
            _saveOldLaddy[i].text = GameManager.instance.savedOldLaddyDic[_characterJSON.keys[i+1]].ToString();
+
         }
 
         for (int i = 0; i < _dieOldLaddy.Count(); i++)
         {
-            _dieOldLaddy[i].text = GameManager.instance.savedOldLaddyDic[_characterJSON.keys[i + 1]].ToString();
+            _dieOldLaddy[i].text = GameManager.instance.dieOldLaddyDic[_characterJSON.keys[i + 1]].ToString();
         }
 
 
