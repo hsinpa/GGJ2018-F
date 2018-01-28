@@ -8,8 +8,8 @@
 		"vehecle_setting" : ["bike", "moto", "s-car"],
 		"win_storyboard" : "",
 		"lose_storyboard" : "storyboard.2",
-		"win_score" : 200,
-		"streetSlot" : 3
+		"streetSlot" : 3,
+		"win_score" : 200
 	},
 		{
 		"id":"round.2",
@@ -34,6 +34,6 @@
 	"win_storyboard" : "storyboard.5",
 	"lose_storyboard" : "storyboard.4",
 	"streetSlot" : 5,
-	"win_score" : 250
+	"win_score" : 240
 	}
 ]

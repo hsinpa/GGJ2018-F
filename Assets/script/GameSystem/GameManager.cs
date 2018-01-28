@@ -1,13 +1,16 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
+
 public class GameManager : MonoBehaviour {
 	[HideInInspector]
 	public MapManager _mapManager;
 	public RoundSystemManager _roundSystemManager;
 
     //UI Managers
-	public StoryBoardManager _storyboardManager;
+	public UIManager _uiManager;
 
     [SerializeField]
     public int Score=0;
@@ -28,7 +31,7 @@ public class GameManager : MonoBehaviour {
 
         _roundSystemManager = GetComponent<RoundSystemManager>();
 		_mapManager = GameObject.Find("BackGround").GetComponent<MapManager>();
-        _storyboardManager = GameObject.Find("Canvas/StoryBoard").GetComponent<StoryBoardManager>();
+        _uiManager = GameObject.Find("Canvas").GetComponent<UIManager>();
 
 	}
 
@@ -53,11 +56,9 @@ public class GameManager : MonoBehaviour {
         }
         updateUI();
         
+        _roundSystemManager.SetUp(roundJSON, 0);
 
-
-        _roundSystemManager.SetUp(roundJSON, 2);
-
-        _storyboardManager.SetUp(storyboardJSON.GetField( "storyboard.1"), delegate {
+        _uiManager.storyBoardManager.SetUp(storyboardJSON.GetField( "storyboard.1"), delegate {
             //Start Game after reading story
             SetGameConfig();
         } );
@@ -67,6 +68,8 @@ public class GameManager : MonoBehaviour {
         JSONObject c_roundJSON = _roundSystemManager.currentRound;
         _mapManager.Setup(this, c_roundJSON.GetField("streetSlot").num);
 
+        //Display round info
+        SetRemindingMessage(c_roundJSON.GetField("name").str);
     }
 
     public void addPoint(int Point, string p_oldLaddy_id)
@@ -74,6 +77,11 @@ public class GameManager : MonoBehaviour {
         Score += Point;
         savedOldLaddyDic[p_oldLaddy_id]++;
         updateUI();
+
+        //Check if victory
+        if (Score >= _roundSystemManager.currentRound.GetField("win_score").num) {
+            RoundEnd();
+        }
     }
 
     public void removeOldLaddy(string p_oldLaddy_id) {
@@ -82,15 +90,20 @@ public class GameManager : MonoBehaviour {
 
     }
 
+    public void SetRemindingMessage(string p_message) {
+        _uiManager.roundTextAnimator.GetComponent<Text>().text = p_message;
+        _uiManager.roundTextAnimator.SetTrigger("Display");
+    }
+
     public void gameOver()
     {
-        Debug.Log("gameover");
+        SetRemindingMessage("Game Over");
 
         string story_id = _roundSystemManager.currentRound.GetField("lose_storyboard").str;
-         _storyboardManager.SetUp( storyboardJSON.GetField(story_id), delegate {
+         _uiManager.storyBoardManager.SetUp( storyboardJSON.GetField(story_id), delegate {
             
             //Restart game after reading story
-            Initialize();
+            ReloadScene();
         } );
     }  
 
@@ -98,11 +111,15 @@ public class GameManager : MonoBehaviour {
     public void RoundEnd() {
         if (_roundSystemManager.SetNextRound()) {
             //Do something here
-
+            SetGameConfig();
         } else {
             //Text for last round (if win)
             // string winText = _roundSystemManager.currentRound.GetField("win_text").str;
-
+            string story_id = _roundSystemManager.currentRound.GetField("win_storyboard").str;
+            _uiManager.storyBoardManager.SetUp(storyboardJSON.GetField(story_id), delegate {
+                //Start Game after reading story
+                ReloadScene();
+            } );
         }
     }
 
@@ -117,5 +134,9 @@ public class GameManager : MonoBehaviour {
     private void OnDestroy()
     {
         instance = null;
+    }
+
+    private void ReloadScene() {
+       SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 }

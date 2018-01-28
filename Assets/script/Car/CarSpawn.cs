@@ -25,7 +25,7 @@ public class CarSpawn : MonoBehaviour {
 
         if (countDown >= rebornTime)
         {
-            int randomCarIndex = Random.Range(0, carTypesList.Count - 1);
+            int randomCarIndex = Random.Range(0, carTypesList.Count);
             string carID = carTypesList[randomCarIndex].str;
             JSONObject carComp= GameManager.instance.GetJSONComponent( carID );
             rebornTime = carComp.GetField("spawn_time").num;

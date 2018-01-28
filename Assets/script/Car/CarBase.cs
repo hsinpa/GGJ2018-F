@@ -144,7 +144,7 @@ public class CarBase : MonoBehaviour {
 
         HUDManager.instance.ShowHUD("Destroy!!", transform.position);
         Debug.Log("Destory it");
-        Destroy(gameObject, 2f);
+        Destroy(gameObject);
     }
 
 
