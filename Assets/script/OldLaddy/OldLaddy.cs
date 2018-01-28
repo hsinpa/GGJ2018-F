@@ -35,6 +35,7 @@ public class OldLaddy : MonoBehaviour, IEffectItem,ICarryItem
         float far = Vector3.Distance(transform.position,position);
         //等速到目標地
         transform.DOMove(position, far/speed).OnComplete(toIdle);
+        _oldLaddyStatus = status.Idle;
         _endLineY = GameManager.instance._mapManager.getEndY();
     }
 
@@ -110,6 +111,7 @@ public class OldLaddy : MonoBehaviour, IEffectItem,ICarryItem
     public void carry(Player _player)
     {
         _oldLaddyStatus = status.BeHelp;
+        DOTween.KillAll();
         _player.addBuff(new BuffData(1, speed, 0f));
     }
 

@@ -2,14 +2,14 @@
 	{
 		"id":"round.1",
 		"name" : "Round 1",
-		"character_setting" : [{"id" : "oldgrandma.1", "frequency" : 10},
+		"character_setting" : [{"id" : "oldgrandma.1", "frequency" : 6},
 			{"id" : "oldgrandma.2", "frequency" : 6},
 			{"id" : "oldgrandma.3", "frequency" : 2}],
 		"vehecle_setting" : ["bike", "moto", "s-car"],
 		"win_storyboard" : "",
 		"lose_storyboard" : "storyboard.2",
-		"streetSlot" : 3,
-		"win_score" : 200
+		"streetSlot" : 4,
+		"win_score" : 120
 	},
 		{
 		"id":"round.2",
@@ -20,7 +20,7 @@
 		"vehecle_setting" : ["bike", "moto", "s-car", "b-car"],
 		"win_storyboard" : "",
 		"lose_storyboard" : "storyboard.3",
-		"streetSlot" : 4,
+		"streetSlot" : 5,
 		"win_score" : 220
 
 	},
@@ -33,7 +33,7 @@
 	"vehecle_setting" : ["bike", "moto", "s-car", "b-car", "tank"],
 	"win_storyboard" : "storyboard.5",
 	"lose_storyboard" : "storyboard.4",
-	"streetSlot" : 5,
+	"streetSlot" : 6,
 	"win_score" : 240
 	}
 ]
