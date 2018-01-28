@@ -58,13 +58,14 @@ public class StoryBoardManager : MonoBehaviour {
 	}
 	
 	public void SwitchCanvas(bool isOpen, bool wantAnimation = false) {
-		if (wantAnimation) {
+		if (wantAnimation && !isOpen) {
 			// canvasGroup.
 			DOTween.KillAll();
 			transform.DOMoveX(2000, 1.5f);
+		} else {
+			canvasGroup.alpha = (isOpen) ? 1 : 0;
 		}
 
-		// canvasGroup.alpha = (isOpen) ? 1 : 0;
 		canvasGroup.interactable = (isOpen);
 		canvasGroup.blocksRaycasts = (isOpen);
 	}
