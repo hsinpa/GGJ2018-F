@@ -62,6 +62,7 @@ public class OldLaddy : MonoBehaviour, IEffectItem,ICarryItem
                 if (transform.position.y > _endLineY)
                 {
                     _oldLaddyStatus = status.MoveOut;
+                    MoveOut();
                 }
                 break;
 
