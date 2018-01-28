@@ -6,8 +6,9 @@
 			{"id" : "oldgrandma.2", "frequency" : 6},
 			{"id" : "oldgrandma.3", "frequency" : 2}],
 		"vehecle_setting" : ["bike", "moto", "s-car"],
-		"win_text" : "",
-		"lose_text" : "",
+		"win_storyboard" : "",
+		"lose_storyboard" : "storyboard.2",
+		"win_score" : 200,
 		"streetSlot" : 3
 	},
 		{
@@ -17,9 +18,11 @@
 			{"id" : "oldgrandma.2", "frequency" : 4},
 			{"id" : "oldgrandma.3", "frequency" : 1}],
 		"vehecle_setting" : ["bike", "moto", "s-car", "b-car"],
-		"win_text" : "",
-		"lose_text" : "",
-		"streetSlot" : 4
+		"win_storyboard" : "",
+		"lose_storyboard" : "storyboard.3",
+		"streetSlot" : 4,
+		"win_score" : 220
+
 	},
 	{
 	"id":"round.3",
@@ -28,8 +31,9 @@
 		{"id" : "oldgrandma.2", "frequency" : 3},
 		{"id" : "oldgrandma.3", "frequency" : 0}],
 	"vehecle_setting" : ["bike", "moto", "s-car", "b-car", "tank"],
-	"win_text" : "",
-	"lose_text" : "",
-	"streetSlot" : 5
+	"win_storyboard" : "storyboard.5",
+	"lose_storyboard" : "storyboard.4",
+	"streetSlot" : 5,
+	"win_score" : 250
 	}
 ]

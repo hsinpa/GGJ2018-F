@@ -37,7 +37,8 @@ public class CarBase : MonoBehaviour {
         speed = GameManager.instance.speedBaseLine * ( p_carJSON.GetField("speed").n);
         stopProbability = p_carJSON.GetField("target_character").n;
         direct = _direct;
-        transform.localScale = new Vector2((_direct.x == 1) ? -1 : 1 , 1 );
+        transform.localScale = new Vector2((_direct.x == 1) ? (transform.localScale.x * -1) : transform.localScale.x ,
+                                             transform.localScale.y );
     }
 
 	// Update is called once per frame

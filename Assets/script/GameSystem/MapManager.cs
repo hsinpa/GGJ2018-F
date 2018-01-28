@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Utility;
 
+
 public class MapManager : MonoBehaviour {
 	SpriteRenderer streetObject; 
 
@@ -22,6 +23,8 @@ public class MapManager : MonoBehaviour {
 
     public float getEndY()
     {
+
+
         return topBlockObject.transform.position.y;
 
     }
