@@ -31,7 +31,6 @@ public class SoundManager : MonoBehaviour {
             {
                 audioSoure.PlayOneShot(_mobj.clip);
 
-
             }
 
         }
