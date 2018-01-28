@@ -6,6 +6,8 @@ public class GameManager : MonoBehaviour {
 	public MapManager _mapManager;
 	public RoundSystemManager _roundSystemManager;
 
+    //UI Managers
+	public StoryBoardManager _storyboardManager;
 
     [SerializeField]
     public int Score=0;
@@ -26,7 +28,10 @@ public class GameManager : MonoBehaviour {
 
         _roundSystemManager = GetComponent<RoundSystemManager>();
 		_mapManager = GameObject.Find("BackGround").GetComponent<MapManager>();
-	
+        _storyboardManager = GameObject.Find("Canvas/StoryBoard").GetComponent<StoryBoardManager>();
+
+
+		Initialize();
 	}
 
     private void Start()
@@ -39,10 +44,7 @@ public class GameManager : MonoBehaviour {
         characterJSON =  new JSONObject( Resources.Load<TextAsset>("Database/Character").text );
         vehicleJSON = new JSONObject( Resources.Load<TextAsset>("Database/VehicleType").text );
         roundJSON =  new JSONObject( Resources.Load<TextAsset>("Database/Rounds").text );
-        _roundSystemManager.SetUp(roundJSON, 2);
-
-
-
+        storyboardJSON =   new JSONObject( Resources.Load<TextAsset>("Database/StoryBoard").text );
 
         ///讀腳色表 鍵Dictionary
         ////跳過第一個
@@ -53,12 +55,20 @@ public class GameManager : MonoBehaviour {
         }
         updateUI();
         
-        //_roundSystemManager.currentRound.GetField("streetSlot").num
-        _mapManager.Setup(this, 4 );
+
+
+        _roundSystemManager.SetUp(roundJSON, 2);
+
+        _storyboardManager.SetUp(storyboardJSON.GetField( "storyboard.1"), delegate {
+            //Start Game after reading story
+            SetGameConfig();
+        } );
 	}
 
     private void SetGameConfig() {
-        
+        JSONObject c_roundJSON = _roundSystemManager.currentRound;
+        _mapManager.Setup(this, c_roundJSON.GetField("streetSlot").num);
+
     }
 
     public void addPoint(int Point, string p_oldLaddy_id)
@@ -77,8 +87,13 @@ public class GameManager : MonoBehaviour {
     public void gameOver()
     {
         Debug.Log("gameover");
-        string loseText = _roundSystemManager.currentRound.GetField("lose_text").str;
-        //Display it
+
+        string story_id = _roundSystemManager.currentRound.GetField("lose_storyboard").str;
+         _storyboardManager.SetUp( storyboardJSON.GetField(story_id), delegate {
+            
+            //Restart game after reading story
+            Initialize();
+        } );
     }  
 
     //Successully win this round
@@ -88,7 +103,7 @@ public class GameManager : MonoBehaviour {
 
         } else {
             //Text for last round (if win)
-            string winText = _roundSystemManager.currentRound.GetField("win_text").str;
+            // string winText = _roundSystemManager.currentRound.GetField("win_text").str;
 
         }
     }
@@ -96,6 +111,7 @@ public class GameManager : MonoBehaviour {
     public JSONObject GetJSONComponent(string p_key) {
         if (vehicleJSON.HasField(p_key)) return vehicleJSON.GetField(p_key);
         if (characterJSON.HasField(p_key)) return characterJSON.GetField(p_key);
+        if (storyboardJSON.HasField(p_key)) return storyboardJSON.GetField(p_key);
 
         return null;
     }
