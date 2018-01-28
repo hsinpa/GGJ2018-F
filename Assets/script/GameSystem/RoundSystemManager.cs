@@ -8,12 +8,12 @@ public class RoundSystemManager : MonoBehaviour {
 	public int round_index;
 	public string round_id, round_name;
 
-	JSONObject currentRound { get { return listRoundJSON[round_index]; } }
+	public JSONObject currentRound { get { return listRoundJSON[round_index]; } }
 
 	//Call only during game activate
-	public void SetUp(JSONObject p_roundJson) {
+	public void SetUp(JSONObject p_roundJson, int initial_round = 0) {
 		listRoundJSON = p_roundJson.list;
-		SetRoundInfo(2);
+		SetRoundInfo(initial_round);
 	}
 
 	public void SetRoundInfo(int p_round_index) {
@@ -31,8 +31,12 @@ public class RoundSystemManager : MonoBehaviour {
 		return currentRound.GetField("vehecle_setting").list;
 	}
 
-	public void SetNextRound() {
+	//Return false if next round don't exist
+	public bool SetNextRound() {
+		if (round_index + 1 >= listRoundJSON.Count) return false;
+
 		SetRoundInfo(round_index+1);
+		return true;
 	}
 
 }

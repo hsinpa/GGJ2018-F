@@ -13,6 +13,10 @@ public class GameManager : MonoBehaviour {
     public int speedBaseLine = 5;
     public static GameManager instance;
 
+
+    public List<string> savedOldLaddyList = new List<string>();
+    public List<string> dieOldLaddyList = new List<string>();
+
     public JSONObject characterJSON, vehicleJSON, roundJSON;
     // public string round_id;
 
@@ -25,28 +29,50 @@ public class GameManager : MonoBehaviour {
 		Initialize();
 	}
 
-    public void addPoint(int Point)
-    {
-        Score += Point;
-    }
-
-    public void gameOver()
-    {
-        Debug.Log("gameover");
-    }
-
-	void Initialize() {
+    void Initialize() {
         //Set json file
         characterJSON =  new JSONObject( Resources.Load<TextAsset>("Database/Character").text );
         vehicleJSON = new JSONObject( Resources.Load<TextAsset>("Database/VehicleType").text );
         roundJSON =  new JSONObject( Resources.Load<TextAsset>("Database/Rounds").text );
 
-        _roundSystemManager.SetUp(roundJSON);
-        _mapManager.Setup(this, 5);
+        _roundSystemManager.SetUp(roundJSON, 2);
+
+        //_roundSystemManager.currentRound.GetField("streetSlot").num
+        _mapManager.Setup(this, 4 );
 	}
 
     private void SetGameConfig() {
         
+    }
+
+    public void addPoint(int Point, string p_oldLaddy_id)
+    {
+        Score += Point;
+        savedOldLaddyList.Add(p_oldLaddy_id);
+    }
+
+    public void removeOldLaddy(string p_oldLaddy_id) {
+        dieOldLaddyList.Add(p_oldLaddy_id);
+    }
+
+    public void gameOver()
+    {
+        Debug.Log("gameover");
+
+        string loseText = _roundSystemManager.currentRound.GetField("lose_text").str;
+        //Display it
+    }  
+
+    //Successully win this round
+    public void RoundEnd() {
+        if (_roundSystemManager.SetNextRound()) {
+            //Do something here
+
+        } else {
+            //Text for last round (if win)
+            string winText = _roundSystemManager.currentRound.GetField("win_text").str;
+
+        }
     }
 
     public JSONObject GetJSONComponent(string p_key) {

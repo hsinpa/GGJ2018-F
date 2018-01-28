@@ -15,7 +15,7 @@ public class MapManager : MonoBehaviour {
 	public List<CarSpawn> carSpawnPointList =  new List<CarSpawn>();
 
 	//Varaible
-	int slotheight = 4;
+	float slotheight = 4f;
 	int detectorHeight = 2;
 	int slotNumer;
 

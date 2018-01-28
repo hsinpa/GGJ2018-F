@@ -42,7 +42,7 @@ public class OldLaddySpawn : MonoBehaviour {
             _rebornTime = characterJSON[randomCharacterIndex].GetField("frequency").num;
             OldLaddy oldLaddy = GameObject.Instantiate(_oldLaddy, transform.position, transform.rotation, transform).GetComponent<OldLaddy>();
             oldLaddy.init(new Vector3(   TargetLine.transform.position.x+ Random.Range(-1*LineLong, LineLong), TargetLine.transform.position.y,0),
-                characterComp, oldWomanSprite
+                characterComp, oldWomanID , oldWomanSprite
             );
 
             _countDown = 0;

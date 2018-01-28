@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 public class CarSpawn : MonoBehaviour {
 
-    public GameObject car;
+    // public GameObject car;
     public float rebornTime = 5F;
     private float countDown = 0;
     [SerializeField]
@@ -29,8 +29,10 @@ public class CarSpawn : MonoBehaviour {
             string carID = carTypesList[randomCarIndex].str;
             JSONObject carComp= GameManager.instance.GetJSONComponent( carID );
             rebornTime = carComp.GetField("spawn_time").num;
-
-            CarBase carBase= GameObject.Instantiate(car,transform.position, transform.rotation,transform).GetComponent<CarBase>();
+            
+            GameObject carPrefab = Resources.Load<GameObject>("Prefab/Vehicle/"+carID);
+            
+            CarBase carBase= GameObject.Instantiate(carPrefab,transform.position, transform.rotation,transform).GetComponent<CarBase>();
             carBase.init( carID, direct, carComp);
             countDown = 0;
         }
