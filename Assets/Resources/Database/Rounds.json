@@ -5,7 +5,10 @@
 		"character_setting" : [{"id" : "oldgrandma.1", "frequency" : 10},
 			{"id" : "oldgrandma.2", "frequency" : 6},
 			{"id" : "oldgrandma.3", "frequency" : 2}],
-		"vehecle_setting" : ["bike", "moto", "s-car"]
+		"vehecle_setting" : ["bike", "moto", "s-car"],
+		"win_text" : "",
+		"lose_text" : "",
+		"streetSlot" : 3
 	},
 		{
 		"id":"round.2",
@@ -13,7 +16,10 @@
 		"character_setting" : [{"id" : "oldgrandma.1", "frequency" : 9},
 			{"id" : "oldgrandma.2", "frequency" : 4},
 			{"id" : "oldgrandma.3", "frequency" : 1}],
-		"vehecle_setting" : ["bike", "moto", "s-car", "b-car"]
+		"vehecle_setting" : ["bike", "moto", "s-car", "b-car"],
+		"win_text" : "",
+		"lose_text" : "",
+		"streetSlot" : 4
 	},
 	{
 	"id":"round.3",
@@ -21,6 +27,9 @@
 	"character_setting" : [{"id" : "oldgrandma.1", "frequency" : 8},
 		{"id" : "oldgrandma.2", "frequency" : 3},
 		{"id" : "oldgrandma.3", "frequency" : 0}],
-	"vehecle_setting" : ["bike", "moto", "s-car", "b-car", "tank"]
-}
+	"vehecle_setting" : ["bike", "moto", "s-car", "b-car", "tank"],
+	"win_text" : "",
+	"lose_text" : "",
+	"streetSlot" : 5
+	}
 ]

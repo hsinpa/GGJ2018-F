@@ -21,11 +21,14 @@ public class OldLaddy : MonoBehaviour, IEffectItem,ICarryItem
     private float _endLineY;
     private float time=0;
     private string type = "";
+    private string _id;
 
-    public void init(Vector3 position, JSONObject p_characterJSONComp, Sprite p_sprite)
+    public void init(Vector3 position, JSONObject p_characterJSONComp, string p_oldladdy_id, Sprite p_sprite)
     {
+        _id = p_oldladdy_id;
         speed = GameManager.instance.speedBaseLine * ( p_characterJSONComp.GetField("speed").n);
-
+        point = p_characterJSONComp.GetField("score").num;
+        
         GetComponent<SpriteRenderer>().sprite = p_sprite;
 
         ///算離目標多遠
@@ -74,7 +77,7 @@ public class OldLaddy : MonoBehaviour, IEffectItem,ICarryItem
     /// </summary>
     public void MoveOut()
     {
-        GameManager.instance.addPoint(point);
+        GameManager.instance.addPoint(point, _id);
         HUDManager.instance.ShowHUD("+" + point.ToString(), transform.position);
         gameObject.transform.DOMoveY(transform.position.y + 30,30 / speed).OnComplete(()=>Destroy(gameObject));
 
@@ -82,6 +85,7 @@ public class OldLaddy : MonoBehaviour, IEffectItem,ICarryItem
 
     public void die()
     {
+        GameManager.instance.removeOldLaddy(_id);
         HUDManager.instance.ShowHUD("Die", transform.position);
         Destroy(gameObject);
     }
