@@ -30,8 +30,6 @@ public class GameManager : MonoBehaviour {
 		_mapManager = GameObject.Find("BackGround").GetComponent<MapManager>();
         _storyboardManager = GameObject.Find("Canvas/StoryBoard").GetComponent<StoryBoardManager>();
 
-
-		Initialize();
 	}
 
     private void Start()
